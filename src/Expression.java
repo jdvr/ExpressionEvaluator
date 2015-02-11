@@ -38,9 +38,7 @@ public class Expression {
         }
 
         @Override
-        public int evaluate() {
-            return value;
-        }
+        public int evaluate() { return value; }
     }
 
     private class Operator implements Node {
@@ -57,8 +55,11 @@ public class Expression {
 
         @Override
         public int evaluate() {
-            //TODO: aqui toa la movida de los case para los operadores = caca
-            return rightNode.evaluate() + leftNode.evaluate();
+            //TODO: aqui toa la movida de los case para los operadores = caca, CAMBIAR
+            if (operator.equals("+"))  return rightNode.evaluate() + leftNode.evaluate();
+            if (operator.equals("-"))  return rightNode.evaluate() - leftNode.evaluate();
+            if (operator.equals("*"))  return rightNode.evaluate() * leftNode.evaluate();
+            return 0;
         }
     }
 }
