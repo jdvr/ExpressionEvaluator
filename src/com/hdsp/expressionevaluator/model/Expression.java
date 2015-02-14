@@ -1,4 +1,5 @@
 package com.hdsp.expressionevaluator.model;
 
-public class Expression {
+public interface Expression {
+    public int calculate();
 }
