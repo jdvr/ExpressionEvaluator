@@ -1,3 +1,4 @@
+package com.hdsp.expressionevaluator.model;
 
 public class Sum extends Operation{
     public Sum(Expression leftExpression, Expression rightExpression) {

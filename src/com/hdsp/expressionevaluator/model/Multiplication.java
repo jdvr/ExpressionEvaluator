@@ -1,3 +1,5 @@
+package com.hdsp.expressionevaluator.model;
+
 /**
  * Created by Javichu on 17/02/2015.
  */

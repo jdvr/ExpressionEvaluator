@@ -1,3 +1,4 @@
+package com.hdsp.expressionevaluator.model;
 
 public class Constant implements Expression{
     private int value;

@@ -1,3 +1,6 @@
+package com.hdsp.expressionevaluator;
+
+import com.hdsp.expressionevaluator.model.*;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
