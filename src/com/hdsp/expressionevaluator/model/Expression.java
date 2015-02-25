@@ -2,5 +2,6 @@ package com.hdsp.expressionevaluator.model;
 
 public interface Expression {
 
-    public int evaluate();
+    public Object evaluate();
+    public Class getType();
 }

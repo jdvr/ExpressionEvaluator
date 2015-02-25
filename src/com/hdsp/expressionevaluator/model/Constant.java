@@ -1,14 +1,23 @@
 package com.hdsp.expressionevaluator.model;
 
 public class Constant implements Expression{
-    private int value;
+    private Object value;
 
-    public Constant(int value) {
+    public Constant(Integer value) {
+        this.value = value;
+    }
+
+    public Constant(Float value) {
         this.value = value;
     }
 
     @Override
-    public int evaluate() {
+    public Object evaluate() {
         return value;
+    }
+
+    @Override
+    public Class getType() {
+        return value.getClass();
     }
 }

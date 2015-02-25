@@ -1,14 +1,14 @@
 package com.hdsp.expressionevaluator.model;
 
-public abstract class Operation implements Expression{
+public abstract class BinaryOperation implements Expression{
     protected Expression leftExpression;
     protected Expression rightExpression;
 
-    public Operation(Expression leftExpression, Expression rightExpression) {
+    public BinaryOperation(Expression leftExpression, Expression rightExpression) {
         this.leftExpression = leftExpression;
         this.rightExpression = rightExpression;
     }
 
-    public abstract int evaluate();
+    public abstract Object evaluate();
 
 }
