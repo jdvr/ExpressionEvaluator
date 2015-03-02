@@ -1,5 +1,7 @@
 package com.hdsp.expressionevaluator;
 
+import com.hdsp.expressionevaluator.expressions.Addition;
+import com.hdsp.expressionevaluator.expressions.Constant;
 import com.hdsp.expressionevaluator.model.*;
 import org.junit.Test;
 

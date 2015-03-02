@@ -1,6 +1,8 @@
 package com.hdsp.expressionevaluator.model;
 
-public class FloatIntegerAddition extends Addition{
+import com.hdsp.expressionevaluator.expressions.Addition;
+
+public class FloatIntegerAddition extends Addition {
 
     private final Expression leftExpression;
     private final Expression rightExpression;

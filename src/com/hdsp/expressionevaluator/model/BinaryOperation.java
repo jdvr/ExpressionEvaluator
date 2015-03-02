@@ -1,6 +1,6 @@
 package com.hdsp.expressionevaluator.model;
 
-public abstract class BinaryOperation implements Expression{
+public abstract class BinaryOperation implements Evaluable, Expression{
     protected Expression leftExpression;
     protected Expression rightExpression;
 
