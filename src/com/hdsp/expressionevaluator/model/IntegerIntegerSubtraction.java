@@ -1,14 +1,14 @@
 package com.hdsp.expressionevaluator.model;
 
-public class IntegerIntegerAddition extends BinaryOperation {
+public class IntegerIntegerSubtraction extends BinaryOperation {
 
-    public IntegerIntegerAddition(Object left, Object right) {
+    public IntegerIntegerSubtraction(Object left, Object right) {
         super(left, right);
     }
 
     @Override
     public Object value() {
-        return (Integer) getLeft() + (Integer) getRight();
+        return (Integer) getLeft() - (Integer) getRight();
     }
 
     @Override

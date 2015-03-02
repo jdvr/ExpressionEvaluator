@@ -5,14 +5,14 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import com.hdsp.expressionevaluator.model.BinaryOperation;
-import com.hdsp.expressionevaluator.model.Evaluable;
-import com.hdsp.expressionevaluator.model.Expression;
+import com.hdsp.expressionevaluator.Evaluable;
+import com.hdsp.expressionevaluator.Expression;
 
 public abstract class BinaryOperator extends Operator {
 
     private final Expression leftExpression;
     private final Expression rightExpression;
-    private final String OperationsPackage = "com.hdsp.expressionevaluator.operation";
+    private final String OperationsPackage = "com.hdsp.expressionevaluator.model.";
 
     public BinaryOperator(Expression leftExpression, Expression rightExpression) {
         this.leftExpression = leftExpression;

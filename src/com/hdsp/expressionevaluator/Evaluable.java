@@ -1,4 +1,4 @@
-package com.hdsp.expressionevaluator.model;
+package com.hdsp.expressionevaluator;
 
 public interface Evaluable {
     public Object value();

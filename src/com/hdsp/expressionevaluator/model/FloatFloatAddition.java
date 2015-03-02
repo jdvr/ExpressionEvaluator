@@ -1,14 +1,14 @@
 package com.hdsp.expressionevaluator.model;
 
-public class FloatIntegerAddition extends BinaryOperation {
+public class FloatFloatAddition extends BinaryOperation {
 
-    public FloatIntegerAddition(Object left, Object right) {
+    public FloatFloatAddition(Object left, Object right) {
         super(left, right);
     }
 
     @Override
     public Object value() {
-        return (Float) getLeft() + (Integer) getRight();
+        return (Float) getLeft() + (Float) getRight();
     }
 
     @Override

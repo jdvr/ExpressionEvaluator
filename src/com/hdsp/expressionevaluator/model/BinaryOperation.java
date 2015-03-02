@@ -1,14 +1,21 @@
 package com.hdsp.expressionevaluator.model;
 
-public abstract class BinaryOperation implements Evaluable, Expression{
-    protected Expression leftExpression;
-    protected Expression rightExpression;
+import com.hdsp.expressionevaluator.Evaluable;
 
-    public BinaryOperation(Expression leftExpression, Expression rightExpression) {
-        this.leftExpression = leftExpression;
-        this.rightExpression = rightExpression;
+public abstract class BinaryOperation implements Evaluable{
+    protected final Object left;
+    protected final Object right;
+
+    public BinaryOperation(Object left, Object right) {
+        this.left = left;
+        this.right = right;
     }
 
-    public abstract Object evaluate();
+    public Object getLeft() {
+        return left;
+    }
 
+    public Object getRight() {
+        return right;
+    }
 }

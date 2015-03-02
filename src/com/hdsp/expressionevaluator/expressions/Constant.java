@@ -1,16 +1,20 @@
 package com.hdsp.expressionevaluator.expressions;
 
-import com.hdsp.expressionevaluator.model.Evaluable;
-import com.hdsp.expressionevaluator.model.Expression;
+import com.hdsp.expressionevaluator.Evaluable;
+import com.hdsp.expressionevaluator.Expression;
 
 public class Constant implements Expression, Evaluable {
-    private Object value;
+    private final Object value;
 
     public Constant(Integer value) {
         this.value = value;
     }
 
     public Constant(Float value) {
+        this.value = value;
+    }
+
+    public Constant(Double value) {
         this.value = value;
     }
 

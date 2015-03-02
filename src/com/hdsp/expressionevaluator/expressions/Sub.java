@@ -2,15 +2,15 @@ package com.hdsp.expressionevaluator.expressions;
 
 import com.hdsp.expressionevaluator.Expression;
 
-public class Add extends BinaryOperator {
+public class Sub extends BinaryOperator {
 
-    public Add(Expression left, Expression right) {
+    public Sub(Expression left, Expression right) {
         super(left, right);
     }
 
     @Override
     public Object value() {
-        return evaluate("Addition");
+        return evaluate("Subtraction");
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.hdsp.expressionevaluator.expressions;
 
-import com.hdsp.expressionevaluator.model.Evaluable;
-import com.hdsp.expressionevaluator.model.Expression;
+import com.hdsp.expressionevaluator.Evaluable;
+import com.hdsp.expressionevaluator.Expression;
 
 /**
  * Created by JuanDavid on 25/02/2015.
