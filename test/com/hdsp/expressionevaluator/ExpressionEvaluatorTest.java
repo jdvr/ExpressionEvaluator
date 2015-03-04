@@ -1,6 +1,9 @@
 package com.hdsp.expressionevaluator;
 
-import com.hdsp.expressionevaluator.model.*;
+
+import com.hdsp.expressionevaluator.expressions.Add;
+import com.hdsp.expressionevaluator.expressions.Constant;
+import com.hdsp.expressionevaluator.expressions.Sub;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -9,52 +12,60 @@ import static junit.framework.Assert.assertEquals;
 public class ExpressionEvaluatorTest {
 
     @Test
-    public void withOneElement() throws Exception {
-        Expression expression = new Constant(5);
-        Interpreter interpreter = new Interpreter();
-        assertEquals(5,interpreter.evaluate(expression));
+    public void withIntegerConstant() throws Exception {
+        Evaluable evaluable = new Constant(5);
+        assertEquals(5,evaluable.value());
+        assertEquals(Integer.class.getSimpleName(),evaluable.type());
     }
 
     @Test
-    public void withOtherElement() throws Exception {
-        Expression expression = new Constant(8);
-        Interpreter interpreter = new Interpreter();
-        assertEquals(8,interpreter.evaluate(expression));
+    public void withIntegerAddition() throws Exception {
+        Evaluable evaluable = new Add(new Constant(3), new Constant(5));
+        assertEquals(8, evaluable.value());
+        assertEquals(Integer.class.getSimpleName(),evaluable.type());
     }
 
     @Test
-    public void withSimpleSum() throws Exception {
-        Expression expression = new Sum(new Constant(8), new Constant(9));
-        Interpreter interpreter = new Interpreter();
-        assertEquals(17,interpreter.evaluate(expression));
+    public void withFloatIntegerAddition() throws Exception {
+        Evaluable evaluable = new Add(new Constant(5.0f), new Constant(3));
+        assertEquals(8.0f, evaluable.value());
+        assertEquals(Float.class.getSimpleName(),evaluable.type());
     }
 
     @Test
-    public void withSimpleSubtraction() throws Exception {
-        Expression expression = new Subtraction(new Constant(25), new Constant(10));
-        Interpreter interpreter = new Interpreter();
-        assertEquals(15,interpreter.evaluate(expression));
+    public void withIntegerFloatAddition() throws Exception {
+        Evaluable evaluable = new Add(new Constant(4) , new Constant(5.0f));
+        assertEquals(9.0f, evaluable.value());
+        assertEquals(Float.class.getSimpleName(),evaluable.type());
     }
 
     @Test
-    public void withSimpleMultiplication() throws Exception {
-        Expression expression = new Multiplication(new Constant(5), new Constant(4));
-        Interpreter interpreter = new Interpreter();
-        assertEquals(20,interpreter.evaluate(expression));
+    public void withFloatAddition() throws Exception {
+        Evaluable evaluable = new Add(new Constant(2.0f) , new Constant(5.0f));
+        assertEquals(7.0f, evaluable.value());
+        assertEquals(Float.class.getSimpleName(),evaluable.type());
     }
 
     @Test
-    public void withSimpleDivision() throws Exception {
-        Expression expression = new Division(new Constant(25), new Constant(5));
-        Interpreter interpreter = new Interpreter();
-        assertEquals(5,interpreter.evaluate(expression));
+    public void withDoubleAddition() throws Exception {
+        Evaluable evaluable = new Add(new Constant(2.0d) , new Constant(2.0d));
+        assertEquals(4.0d, evaluable.value());
+        assertEquals(Double.class.getSimpleName(),evaluable.type());
     }
 
     @Test
-    public void RewardTest() throws Exception {
-        Expression expression = new Sum(new Subtraction(new Multiplication(new Constant(5), new Constant(10)), new Division(new Constant(20), new Constant(2))), new Constant(8));
-        Interpreter interpreter = new Interpreter();
-        assertEquals(48,interpreter.evaluate(expression));
+    public void withIntegerSubtraction() throws Exception {
+        Evaluable evaluable = new Sub(new Constant(5) , new Constant(3));
+        assertEquals(2, evaluable.value());
+        assertEquals(Integer.class.getSimpleName(),evaluable.type());
     }
+
+    @Test
+    public void withIntegerFloatSubtraction() throws Exception {
+        Evaluable evaluable = new Sub(new Constant(5) , new Constant(3.0f));
+        assertEquals(2.0f, evaluable.value());
+        assertEquals(Float.class.getSimpleName(),evaluable.type());
+    }
+
 
 }
