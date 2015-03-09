@@ -27,7 +27,7 @@ public class LexicalParserTest {
     }
 
     @Test
-    public void should_return_constant_tokens_when_receive_two_numbers_by_string() throws Exception {
+    public void should_return_two_constant_tokens_when_receive_two_numbers_by_string() throws Exception {
         LexicalParser lexicalParser = new LexicalParser();
         Token[] parserResult = lexicalParser.parser("89 96");
         assertThat(parserResult.length, is(2));
@@ -38,6 +38,28 @@ public class LexicalParserTest {
     }
 
 
+
+    @Test
+    public void should_return_plus_operation_token_when_receive_plus_sign_by_string() throws Exception {
+        LexicalParser lexicalParser = new LexicalParser();
+        Token[] parserResult = lexicalParser.parser("+");
+        assertThat(parserResult.length, is(1));
+        assertThat(parserResult[0].getType(), is(Plus));
+        assertThat(parserResult[0].getValue(), is(string("+")));
+    }
+
+    @Test
+    public void should_return_sub_operation_token_when_receive_sub_sign_by_string() throws Exception {
+        LexicalParser lexicalParser = new LexicalParser();
+        Token[] parserResult = lexicalParser.parser("-");
+        assertThat(parserResult.length, is(1));
+        assertThat(parserResult[0].getType(), is(Sub));
+        assertThat(parserResult[0].getValue(), is(string("-")));
+    }
+
+    private Object string(String string) {
+        return new String(string);
+    }
 
 
     private Object integer(int i) {

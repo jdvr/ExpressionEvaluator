@@ -1,5 +1,5 @@
 package com.hdsp.expressionparser.lexical;
 
 public enum TokenType {
-    Constant
+    Constant, Plus, Sub, Mult, Slash
 }
