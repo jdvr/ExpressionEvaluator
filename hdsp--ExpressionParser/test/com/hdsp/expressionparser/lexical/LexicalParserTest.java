@@ -1,6 +1,5 @@
 package com.hdsp.expressionparser.lexical;
 
-import org.hamcrest.Matchers;
 import org.junit.Test;
 
 
@@ -32,12 +31,30 @@ public class LexicalParserTest {
         Token[] parserResult = lexicalParser.parser("89 96");
         assertThat(parserResult.length, is(2));
         assertThat(parserResult[0].getType(), is(Constant));
-        assertThat(parserResult[0].getValue(), is(integer(89)));
+        assertThat(parserResult[0].getValue(), is(integerNumber(89)));
         assertThat(parserResult[1].getType(), is(Constant));
-        assertThat(parserResult[1].getValue(), is(integer(96)));
+        assertThat(parserResult[1].getValue(), is(integerNumber(96)));
     }
 
 
+    @Test
+    public void should_return_one_constant_tokens_when_receive_float_number_by_string() throws Exception {
+        LexicalParser lexicalParser = new LexicalParser();
+        Token[] parserResult = lexicalParser.parser("89.69f");
+        assertThat(parserResult.length, is(1));
+        assertThat(parserResult[0].getType(), is(Constant));
+        assertThat(parserResult[0].getValue(), is(floatNumber(89.69f)));
+    }
+
+
+    @Test
+    public void should_return_one_constant_tokens_when_receive_double_number_by_string() throws Exception {
+        LexicalParser lexicalParser = new LexicalParser();
+        Token[] parserResult = lexicalParser.parser("89.69");
+        assertThat(parserResult.length, is(1));
+        assertThat(parserResult[0].getType(), is(Constant));
+        assertThat(parserResult[0].getValue(), is(doubleNumber(89.69)));
+    }
 
     @Test
     public void should_return_plus_operation_token_when_receive_plus_sign_by_string() throws Exception {
@@ -57,12 +74,21 @@ public class LexicalParserTest {
         assertThat(parserResult[0].getValue(), is(string("-")));
     }
 
+
+    private Object doubleNumber(double number) {
+        return new Double(number);
+    }
+
     private Object string(String string) {
         return new String(string);
     }
 
+    private Object floatNumber(float number) {
+        return new Float(number);
+    }
 
-    private Object integer(int i) {
+
+    private Object integerNumber(int i) {
         return new Integer(i);
     }
 
