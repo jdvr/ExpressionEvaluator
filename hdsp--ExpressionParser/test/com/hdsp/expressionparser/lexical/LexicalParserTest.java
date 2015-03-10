@@ -3,7 +3,6 @@ package com.hdsp.expressionparser.lexical;
 import org.junit.Test;
 
 
-
 import static com.hdsp.expressionparser.lexical.TokenType.*;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
@@ -61,7 +60,7 @@ public class LexicalParserTest {
         LexicalParser lexicalParser = new LexicalParser();
         Token[] parserResult = lexicalParser.parser("+");
         assertThat(parserResult.length, is(1));
-        assertThat(parserResult[0].getType(), is(Plus));
+        assertThat(parserResult[0].getType(), is(PlusSign));
         assertThat(parserResult[0].getValue(), is(string("+")));
     }
 
@@ -70,8 +69,31 @@ public class LexicalParserTest {
         LexicalParser lexicalParser = new LexicalParser();
         Token[] parserResult = lexicalParser.parser("-");
         assertThat(parserResult.length, is(1));
-        assertThat(parserResult[0].getType(), is(Sub));
+        assertThat(parserResult[0].getType(), is(SubSign));
         assertThat(parserResult[0].getValue(), is(string("-")));
+    }
+
+    @Test(expected=LexicalParserException.class)
+    public void should_throw_a_lexical_exception_when_receive_a_wrong_sign_by_string() throws Exception {
+        LexicalParser lexicalParser = new LexicalParser();
+        lexicalParser.parser("6h.5");
+    }
+
+    @Test
+    public void should_return_tokens_when_receive_an_operation_by_string() throws Exception {
+        LexicalParser lexicalParser = new LexicalParser();
+        Token[] parserResult = lexicalParser.parser("3 + 4f - 3.567 + 1 - 9.45");
+        assertThat(parserResult.length, is(9));
+        assertThat(parserResult[0].getType(), is(Constant));
+        assertThat(parserResult[0].getValue(), is(integerNumber(3)));
+        assertThat(parserResult[1].getType(), is(PlusSign));
+        assertThat(parserResult[1].getValue(), is(string("+")));
+        assertThat(parserResult[2].getType(), is(Constant));
+        assertThat(parserResult[2].getValue(), is(floatNumber(4f)));
+        assertThat(parserResult[3].getType(), is(SubSign));
+        assertThat(parserResult[3].getValue(), is(string("-")));
+        assertThat(parserResult[4].getType(), is(Constant));
+        assertThat(parserResult[4].getValue(), is(doubleNumber(3.567)));
     }
 
 

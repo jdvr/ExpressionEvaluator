@@ -45,8 +45,8 @@ public class Token {
 
     private static Map<String, TokenType> getStringToTypeMap() {
         Map<String, TokenType> stringToType = new HashMap<>();
-        stringToType.put("+", Plus);
-        stringToType.put("-", Sub);
+        stringToType.put("+", PlusSign);
+        stringToType.put("-", SubSign);
         return  stringToType;
     }
 }
