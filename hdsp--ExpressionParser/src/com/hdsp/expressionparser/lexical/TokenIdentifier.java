@@ -1,10 +1,30 @@
 package com.hdsp.expressionparser.lexical;
 
 public enum TokenIdentifier {
-    Plus("+", value -> new Token(value)),
-    Sub("-", value -> new Token(value)),
-    F("f", value -> new Token(Float.valueOf(value))),
-    Point(".", value -> new Token(Double.valueOf(value)));
+    Plus("+", new TokenBuilder() {
+        @Override
+        public Token build(String value) {
+            return new Token(value);
+        }
+    }),
+    Sub("-", new TokenBuilder() {
+        @Override
+        public Token build(String value) {
+            return new Token(value);
+        }
+    }),
+    F("f", new TokenBuilder() {
+        @Override
+        public Token build(String value) {
+            return new Token(Float.valueOf(value));
+        }
+    }),
+    Point(".", new TokenBuilder() {
+        @Override
+        public Token build(String value) {
+            return new Token(Double.valueOf(value));
+        }
+    });
 
     private final String id;
     private final TokenBuilder builder;
