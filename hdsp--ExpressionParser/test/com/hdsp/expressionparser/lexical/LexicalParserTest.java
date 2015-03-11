@@ -21,7 +21,7 @@ public class LexicalParserTest {
         LexicalParser lexicalParser = new LexicalParser();
         assertEquals(Constant, lexicalParser.parser("89")[0].getType());
         assertEquals(89, lexicalParser.parser("89")[0].getValue());
-
+        
     }
 
     @Test
