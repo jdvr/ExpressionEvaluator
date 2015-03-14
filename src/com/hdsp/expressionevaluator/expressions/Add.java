@@ -26,6 +26,6 @@ public class Add extends BinaryOperator {
 
     @Override
     public Evaluable getEvaluable() {
-        return getEvaluable(getLeft(), getRight(), Operations.Addition.toString());
+        return getEvaluable(evaluateOperand(getLeft()), evaluateOperand(getRight()), Operations.Addition.toString());
     }
 }

@@ -48,6 +48,8 @@ public class Token {
         stringToType.put("+", PlusSign);
         stringToType.put("-", SubSign);
         stringToType.put("*", MultiplySign);
+        stringToType.put("(", LeftParenthesis);
+        stringToType.put(")", RightParenthesis);
         return  stringToType;
     }
 }

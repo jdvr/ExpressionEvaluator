@@ -55,6 +55,17 @@ public class SemanticParserTest {
         assertThat(evaluable.type(), is(Integer.class.getSimpleName()));
     }
 
+    @Test
+    public void should_return_an_evaluable_with_value_minus_two_when_given_2_multiply_Lbracket_3_sub_4_Rbracket(){
+        addTokensToList(new Token(2), new Token("*"), new Token("("), new Token(3), new Token("-"), new Token(4), new Token(")"));
+        Expression expression = parser.buildEvaluableExpression(tokenList);
+        assertThat(expression.isEvaluable(), is(true));
+        Evaluable evaluable = expression.getEvaluable();
+        assertThat(evaluable.value(), is(-2));
+        assertThat(evaluable.type(), is(Integer.class.getSimpleName()));
+    }
+
+
 
     private void addTokensToList(Token ... tokens) {
         for (Token token : tokens) {

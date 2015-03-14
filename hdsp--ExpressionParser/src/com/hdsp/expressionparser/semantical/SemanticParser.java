@@ -23,7 +23,13 @@ public class SemanticParser {
     private Stack<Expression> leftStack;
 
     public SemanticParser() {
-        this.preference = new HashMap<TokenType, Integer>() {{
+        this.preference = preferences();
+        downStack = new Stack<>();
+        leftStack = new Stack<>();
+    }
+
+    private HashMap<TokenType, Integer> preferences() {
+        return new HashMap<TokenType, Integer>() {{
             put(PlusSign, 2);
             put(SubSign, 2);
             put(MultiplySign, 3);
@@ -31,34 +37,48 @@ public class SemanticParser {
     }
 
     public Expression buildEvaluableExpression(List<Token> tokens) {
-        downStack = new Stack<>();
-        leftStack = new Stack<>();
-        for(Token token : tokens) {
-            switch(token.getType()) {
+
+        for (Token token : tokens) {
+                        TokenType popped;
+            switch (token.getType()) {
                 case IntegerConstant:
-                    leftStack.push(new Constant((Integer)token.getValue()));
+                    leftStack.push(new Constant((Integer) token.getValue()));
                     break;
                 case FloatConstant:
-                    leftStack.push(new Constant((Float)token.getValue()));
+                    leftStack.push(new Constant((Float) token.getValue()));
                     break;
                 case DoubleConstant:
-                    leftStack.push(new Constant((Double)token.getValue()));
+                    leftStack.push(new Constant((Double) token.getValue()));
+                    break;
+                case LeftParenthesis:
+                    downStack.push(token.getType());
+                    break;
+                case RightParenthesis:
+                    while(!downStack.isEmpty()) {
+                        popped = downStack.pop();
+                        if(popped == LeftParenthesis) {
+                            break;
+                        } else {
+                            addNode(popped);
+                        }
+                    }
                     break;
                 default:
                     Integer downStackTokenPreference;
-                    while(!downStack.isEmpty() && (downStackTokenPreference = preference.get(downStack.peek())) != null) {
-                        System.out.println("NO");
+                    while (!downStack.isEmpty()
+                            && (downStackTokenPreference = preference.get(downStack.peek())) != null) {
                         if ((preference.get(token.getType()) != downStackTokenPreference)
-                                && preference.get(token.getType()) >= downStackTokenPreference)
+                                && preference.get(token.getType()) >= downStackTokenPreference) {
                             break;
-                            downStack.pop();
-                            addNode(token.getType());
+                        }
+                        downStack.pop();
+                        addNode(token.getType());
                     }
                     downStack.push(token.getType());
                     break;
             }
         }
-        while(!downStack.isEmpty()) {
+        while (!downStack.isEmpty()) {
             addNode(downStack.pop());
         }
         return leftStack.pop();
@@ -68,10 +88,13 @@ public class SemanticParser {
     private void addNode(TokenType operator) {
         Expression rightExpression = leftStack.pop();
         Expression leftExpression = leftStack.pop();
-        if(operator == PlusSign)
+        if (operator == PlusSign) {
             leftStack.push(new Add(leftExpression, rightExpression));
-        else if (operator == MultiplySign)
+        } else if (operator == MultiplySign) {
             leftStack.push(new Multiply(leftExpression, rightExpression));
+        } else if (operator == SubSign) {
+            leftStack.push(new Sub(leftExpression, rightExpression));
+        }
 
     }
 }

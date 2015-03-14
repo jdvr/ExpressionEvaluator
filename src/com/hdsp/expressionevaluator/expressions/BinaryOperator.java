@@ -29,10 +29,10 @@ public abstract class BinaryOperator extends Operator {
     }
 
     protected Object evaluate(String operation) {
-        return getEvaluable(getLeft(), getRight(), operation).value();
+        return getEvaluable(evaluateOperand(getLeft()), evaluateOperand(getRight()), operation).value();
     }
 
-    protected Evaluable getEvaluable(Expression left, Expression right, String operation) {
+    protected Evaluable getEvaluable(Object left, Object right, String operation) {
         try {
             return createEvaluable(left, right, getBinaryOperationClass(left, right, operation));
         } catch (ClassNotFoundException e) {
@@ -40,9 +40,9 @@ public abstract class BinaryOperator extends Operator {
         }
     }
 
-    private Evaluable createEvaluable(Expression left, Expression right, Class<BinaryOperation> binaryOperationClass) {
+    private Evaluable createEvaluable(Object left, Object right, Class<BinaryOperation> binaryOperationClass) {
         try {
-            Constructor<BinaryOperation> constructor = binaryOperationClass.getConstructor(left.getClass(), right.getClass());
+            Constructor<BinaryOperation> constructor = binaryOperationClass.getConstructor(Object.class, Object.class);
             return constructor.newInstance(left, right);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             return nullEvaluable();
@@ -50,15 +50,15 @@ public abstract class BinaryOperator extends Operator {
     }
 
     @SuppressWarnings("unchecked")
-    protected Class<BinaryOperation> getBinaryOperationClass(Expression left, Expression right, String operation) throws ClassNotFoundException {
+    protected Class<BinaryOperation> getBinaryOperationClass(Object left, Object right, String operation) throws ClassNotFoundException {
         return (Class<BinaryOperation>) loadClass(left, right, operation);
     }
 
-    private Class loadClass(Expression left, Expression right, String operation) throws ClassNotFoundException {
+    private Class loadClass(Object left, Object right, String operation) throws ClassNotFoundException {
         return ClassLoader.getSystemClassLoader().loadClass(getBinaryOperationClassName(left, right, operation));
     }
 
-    private String getBinaryOperationClassName(Expression left, Expression right, String operation) {
+    private String getBinaryOperationClassName(Object left, Object right, String operation) {
         return OperationsPackage + typeOf(left) + typeOf(right) + operation;
     }
 }

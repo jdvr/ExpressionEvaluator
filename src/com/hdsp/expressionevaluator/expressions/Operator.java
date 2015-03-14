@@ -6,7 +6,6 @@ import com.hdsp.expressionevaluator.Expression;
 public abstract class Operator implements Evaluable, Expression {
 
     protected String typeOf(Object expression){
-        if(expression instanceof Constant) return ((Constant) expression).type();
         return expression.getClass().getSimpleName();
     }
 

@@ -73,6 +73,17 @@ public class LexicalParserTest {
         assertThat(parserResult[0].getValue(), is(string("-")));
     }
 
+    @Test
+    public void should_return_left_and_right_parenthesis_token_when_receive_two_parenthesis_by_string() throws Exception {
+        LexicalParser lexicalParser = new LexicalParser();
+        Token[] parserResult = lexicalParser.parser("( )");
+        assertThat(parserResult.length, is(2));
+        assertThat(parserResult[0].getType(), is(LeftParenthesis));
+        assertThat(parserResult[0].getValue(), is(string("(")));
+        assertThat(parserResult[1].getType(), is(RightParenthesis));
+        assertThat(parserResult[1].getValue(), is(string(")")));
+    }
+
     @Test(expected=LexicalParserException.class)
     public void should_throw_a_lexical_exception_when_receive_a_wrong_sign_by_string() throws Exception {
         LexicalParser lexicalParser = new LexicalParser();
