@@ -3,15 +3,15 @@ package com.hdsp.expressionevaluator.expressions;
 import com.hdsp.expressionevaluator.Evaluable;
 import com.hdsp.expressionevaluator.Expression;
 
-public class Sub extends BinaryOperator {
+public class Multiply extends BinaryOperator {
 
-    public Sub(Expression left, Expression right) {
+    public Multiply(Expression left, Expression right) {
         super(left, right);
     }
 
     @Override
     public Object value() {
-        return evaluate(Operations.Subtraction.toString());
+        return evaluate(Operations.Multiply.toString());
     }
 
     @Override
@@ -26,6 +26,7 @@ public class Sub extends BinaryOperator {
 
     @Override
     public Evaluable getEvaluable() {
-        return getEvaluable(getLeft(), getRight(), Operations.Subtraction.toString());
+        return getEvaluable(getLeft(), getRight(), Operations.Multiply.toString());
     }
 }
+

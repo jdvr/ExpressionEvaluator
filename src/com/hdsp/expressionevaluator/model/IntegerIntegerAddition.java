@@ -15,4 +15,5 @@ public class IntegerIntegerAddition extends BinaryOperation {
     public String type() {
         return "Integer";
     }
+
 }

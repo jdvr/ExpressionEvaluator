@@ -3,6 +3,7 @@ package com.hdsp.expressionevaluator;
 
 import com.hdsp.expressionevaluator.expressions.Add;
 import com.hdsp.expressionevaluator.expressions.Constant;
+import com.hdsp.expressionevaluator.expressions.Multiply;
 import com.hdsp.expressionevaluator.expressions.Sub;
 import org.junit.Test;
 
@@ -66,6 +67,14 @@ public class ExpressionEvaluatorTest {
         assertEquals(2.0f, evaluable.value());
         assertEquals(Float.class.getSimpleName(),evaluable.type());
     }
+
+    @Test
+    public void withIntegerIntegerMultiply() throws Exception {
+        Evaluable evaluable = new Multiply(new Constant(5) , new Constant(3));
+        assertEquals(15, evaluable.value());
+        assertEquals(Integer.class.getSimpleName(),evaluable.type());
+    }
+
 
 
 }

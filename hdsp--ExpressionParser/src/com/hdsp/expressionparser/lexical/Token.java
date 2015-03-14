@@ -11,7 +11,7 @@ public class Token {
     private static Map<String, TokenType> stringToType = getStringToTypeMap();
 
     public Token(Integer value) {
-        this(Constant, value);
+        this(IntegerConstant, value);
     }
 
     public Token(String value) {
@@ -19,11 +19,11 @@ public class Token {
     }
 
     public Token(Float value) {
-        this(Constant, value);
+        this(FloatConstant, value);
     }
 
     public Token(Double value) {
-        this(Constant, value);
+        this(DoubleConstant, value);
     }
 
     private Token(TokenType type, Object value){
@@ -47,6 +47,7 @@ public class Token {
         Map<String, TokenType> stringToType = new HashMap<>();
         stringToType.put("+", PlusSign);
         stringToType.put("-", SubSign);
+        stringToType.put("*", MultiplySign);
         return  stringToType;
     }
 }
