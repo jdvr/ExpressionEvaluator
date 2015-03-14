@@ -2,10 +2,8 @@ package com.hdsp.expressionparser.semantical;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
-import com.hdsp.expressionevaluator.Evaluable;
 import com.hdsp.expressionevaluator.Expression;
 import com.hdsp.expressionevaluator.expressions.Add;
 import com.hdsp.expressionevaluator.expressions.Constant;
@@ -18,12 +16,10 @@ import static com.hdsp.expressionparser.lexical.TokenType.*;
 
 public class SemanticParser {
 
-    private final Map<TokenType, Integer> preference;
     private Stack<TokenType> downStack;
     private Stack<Expression> leftStack;
 
     public SemanticParser() {
-        this.preference = preferences();
         downStack = new Stack<>();
         leftStack = new Stack<>();
     }
@@ -39,7 +35,6 @@ public class SemanticParser {
     public Expression buildEvaluableExpression(List<Token> tokens) {
 
         for (Token token : tokens) {
-                        TokenType popped;
             switch (token.getType()) {
                 case IntegerConstant:
                     leftStack.push(new Constant((Integer) token.getValue()));
@@ -54,9 +49,10 @@ public class SemanticParser {
                     downStack.push(token.getType());
                     break;
                 case RightParenthesis:
-                    while(!downStack.isEmpty()) {
+                    TokenType popped;
+                    while (!downStack.isEmpty()) {
                         popped = downStack.pop();
-                        if(popped == LeftParenthesis) {
+                        if (popped == LeftParenthesis) {
                             break;
                         } else {
                             addNode(popped);
@@ -64,13 +60,7 @@ public class SemanticParser {
                     }
                     break;
                 default:
-                    Integer downStackTokenPreference;
-                    while (!downStack.isEmpty()
-                            && (downStackTokenPreference = preference.get(downStack.peek())) != null) {
-                        if ((preference.get(token.getType()) != downStackTokenPreference)
-                                && preference.get(token.getType()) >= downStackTokenPreference) {
-                            break;
-                        }
+                    while (!downStack.isEmpty() && tokenHasLessPreferenceThanDownPeek(token)) {
                         downStack.pop();
                         addNode(token.getType());
                     }
@@ -82,6 +72,10 @@ public class SemanticParser {
             addNode(downStack.pop());
         }
         return leftStack.pop();
+    }
+
+    private boolean tokenHasLessPreferenceThanDownPeek(Token token) {
+        return token.getType().getPreference() < downStack.peek().getPreference();
     }
 
 
