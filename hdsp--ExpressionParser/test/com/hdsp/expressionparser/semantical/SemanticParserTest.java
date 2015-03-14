@@ -26,7 +26,7 @@ public class SemanticParserTest {
     }
 
     @Test
-    public void should_return_an_evaluable_equals_to_five_when_given_a_single_constant_token_with_the_same_value(){
+    public void should_return_an_evaluable_equals_to_five_when_given_a_single_constant_token_with_the_same_value() throws Exception{
         addTokensToList(new Token(5));
         Expression expression = parser.buildEvaluableExpression(tokenList);
         assertThat(expression.isEvaluable(), is(true));
@@ -35,7 +35,7 @@ public class SemanticParserTest {
     }
 
     @Test
-    public void should_return_an_evaluable_with_value_equals_to_7_and_type_integer_when_given_5_plus_2(){
+    public void should_return_an_evaluable_with_value_equals_to_7_and_type_integer_when_given_5_plus_2() throws Exception {
         addTokensToList(new Token(5), new Token("+"), new Token(2));
         Expression expression = parser.buildEvaluableExpression(tokenList);
         assertThat(expression.isEvaluable(), is(true));
@@ -46,7 +46,7 @@ public class SemanticParserTest {
 
 
     @Test
-    public void should_return_an_evaluable_with_value_equals_to_11_when_given_5_plus_2_multiply_3(){
+    public void should_return_an_evaluable_with_value_equals_to_11_when_given_5_plus_2_multiply_3() throws Exception {
         addTokensToList(new Token(5), new Token("+"), new Token(2), new Token("*"), new Token(3));
         Expression expression = parser.buildEvaluableExpression(tokenList);
         assertThat(expression.isEvaluable(), is(true));
@@ -56,13 +56,19 @@ public class SemanticParserTest {
     }
 
     @Test
-    public void should_return_an_evaluable_with_value_minus_two_when_given_2_multiply_Lbracket_3_sub_4_Rbracket(){
+    public void should_return_an_evaluable_with_value_minus_two_when_given_2_multiply_Lbracket_3_sub_4_Rbracket() throws Exception {
         addTokensToList(new Token(2), new Token("*"), new Token("("), new Token(3), new Token("-"), new Token(4), new Token(")"));
         Expression expression = parser.buildEvaluableExpression(tokenList);
         assertThat(expression.isEvaluable(), is(true));
         Evaluable evaluable = expression.getEvaluable();
         assertThat(evaluable.value(), is(-2));
         assertThat(evaluable.type(), is(Integer.class.getSimpleName()));
+    }
+
+    @Test(expected = SemanticParserException.class)
+    public void should_return_an_exception_when_given_wrong_formed_expression() throws Exception {
+        addTokensToList(new Token(2), new Token(3), new Token("-"), new Token(4), new Token(")"));
+        Expression expression = parser.buildEvaluableExpression(tokenList);
     }
 
 

@@ -2,6 +2,7 @@ package com.hdsp.expressionparser.semantical;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import com.hdsp.expressionevaluator.Expression;
@@ -24,54 +25,60 @@ public class SemanticParser {
         leftStack = new Stack<>();
     }
 
-    private HashMap<TokenType, Integer> preferences() {
-        return new HashMap<TokenType, Integer>() {{
-            put(PlusSign, 2);
-            put(SubSign, 2);
-            put(MultiplySign, 3);
-        }};
+    public Expression buildEvaluableExpression(List<Token> tokens) throws SemanticParserException {
+        if (! checkWellFormedExpression(tokens)) throw  new SemanticParserException("Wrong Formed Expression");
+        for (Token token : tokens) {
+
+            if (token.getType() == LeftParenthesis) {
+                downStack.push(token.getType());
+                continue;
+            }
+
+            if (token.getType() == RightParenthesis) {
+                resolvesParenthesis();
+                continue;
+            }
+
+            if (token.getType() == PlusSign || token.getType() == MultiplySign || token.getType() == SubSign) {
+                while (!downStack.isEmpty() && tokenHasLessPreferenceThanDownPeek(token)) {
+                    downStack.pop();
+                    addNode(token.getType());
+                }
+                downStack.push(token.getType());
+                continue;
+            }
+
+            leftStack.push(ExpressionBuilder.build(token));
+        }
+
+        while (!downStack.isEmpty())
+            addNode(downStack.pop());
+
+        return leftStack.pop();
     }
 
-    public Expression buildEvaluableExpression(List<Token> tokens) {
+    private boolean checkWellFormedExpression(List<Token> tokens) {
+        return checkNotTwoConstantOrOperatorsConsecutive(tokens);
+    }
 
-        for (Token token : tokens) {
-            switch (token.getType()) {
-                case IntegerConstant:
-                    leftStack.push(new Constant((Integer) token.getValue()));
-                    break;
-                case FloatConstant:
-                    leftStack.push(new Constant((Float) token.getValue()));
-                    break;
-                case DoubleConstant:
-                    leftStack.push(new Constant((Double) token.getValue()));
-                    break;
-                case LeftParenthesis:
-                    downStack.push(token.getType());
-                    break;
-                case RightParenthesis:
-                    TokenType popped;
-                    while (!downStack.isEmpty()) {
-                        popped = downStack.pop();
-                        if (popped == LeftParenthesis) {
-                            break;
-                        } else {
-                            addNode(popped);
-                        }
-                    }
-                    break;
-                default:
-                    while (!downStack.isEmpty() && tokenHasLessPreferenceThanDownPeek(token)) {
-                        downStack.pop();
-                        addNode(token.getType());
-                    }
-                    downStack.push(token.getType());
-                    break;
-            }
+    private boolean checkNotTwoConstantOrOperatorsConsecutive(List<Token> tokens) {
+        for (int i = 1; i < tokens.size() - 1; i++) {
+            if (tokens.get(i).getType() == LeftParenthesis || tokens.get(i).getType() == RightParenthesis) continue;
+            if (tokens.get(i - 1).getType() == tokens.get(i).getType()) return false;
+            if (tokens.get(i).getType() == tokens.get(i + 1).getType()) return false;
         }
+        return true;
+    }
+
+    private void resolvesParenthesis() {
+        TokenType popped;
         while (!downStack.isEmpty()) {
-            addNode(downStack.pop());
+            popped = downStack.pop();
+            if (popped == LeftParenthesis) {
+                break;
+            }
+            addNode(popped);
         }
-        return leftStack.pop();
     }
 
     private boolean tokenHasLessPreferenceThanDownPeek(Token token) {
@@ -82,13 +89,58 @@ public class SemanticParser {
     private void addNode(TokenType operator) {
         Expression rightExpression = leftStack.pop();
         Expression leftExpression = leftStack.pop();
-        if (operator == PlusSign) {
-            leftStack.push(new Add(leftExpression, rightExpression));
-        } else if (operator == MultiplySign) {
-            leftStack.push(new Multiply(leftExpression, rightExpression));
-        } else if (operator == SubSign) {
-            leftStack.push(new Sub(leftExpression, rightExpression));
+        leftStack.push(ExpressionBuilder.build(operator, leftExpression, rightExpression));
+    }
+
+    private static class ExpressionBuilder {
+        public static Expression build(TokenType operator, Expression left, Expression right) {
+            return OperatorBuilder.getBuilderFor(operator).build(left, right);
         }
 
+        public static Expression build(Token token) {
+            return  ConstantBuilder.getBuilderFor(token.getType()).build(token.getValue());
+        }
+    }
+
+    private static class OperatorBuilder {
+        private static Map<TokenType, OperationBuilder> operationBuilder = buildOperatorsMap();
+
+        private static Map<TokenType, OperationBuilder> buildOperatorsMap() {
+            return new HashMap<TokenType, OperationBuilder>() {{
+                put(PlusSign, Add::new);
+                put(SubSign, Sub::new);
+                put(MultiplySign, Multiply::new);
+            }};
+        }
+
+        public static OperationBuilder getBuilderFor(TokenType operator) {
+            return operationBuilder.get(operator);
+        }
+
+        @FunctionalInterface
+        private interface OperationBuilder {
+            public Expression build(Expression left, Expression right);
+        }
+    }
+
+    private static class ConstantBuilder {
+        private static Map<TokenType, ValueBuilder> valueBuilder = buildOperatorsMap();
+
+        private static Map<TokenType, ValueBuilder> buildOperatorsMap() {
+            return new HashMap<TokenType, ValueBuilder>() {{
+                put(IntegerConstant, value -> new Constant((Integer) value));
+                put(FloatConstant, value -> new Constant((Float) value));
+                put(DoubleConstant, value -> new Constant((Double) value));
+            }};
+        }
+
+        public static ValueBuilder getBuilderFor(TokenType constant) {
+            return valueBuilder.get(constant);
+        }
+
+        @FunctionalInterface
+        private interface ValueBuilder {
+            public Expression build(Object value);
+        }
     }
 }
