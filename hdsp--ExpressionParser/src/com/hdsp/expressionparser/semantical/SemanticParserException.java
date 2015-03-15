@@ -9,4 +9,8 @@ public class SemanticParserException extends Exception{
     }
 
 
+    @Override
+    public synchronized Throwable getCause() {
+        return new Throwable(message);
+    }
 }

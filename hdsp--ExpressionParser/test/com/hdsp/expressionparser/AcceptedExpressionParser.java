@@ -37,7 +37,7 @@ public class AcceptedExpressionParser {
         Expression expression = expressionParser.parser("1 + 2");
         verify(lexicalParser).parser("1 + 2");
         verifyNoMoreInteractions(lexicalParser);
-        verify(semanticParser).buildEvaluableExpression(new Token(1), new Token("+"), new Token(2));
+        verify(semanticParser).parser(new Token(1), new Token("+"), new Token(2));
         verifyNoMoreInteractions(semanticParser);
     }
 

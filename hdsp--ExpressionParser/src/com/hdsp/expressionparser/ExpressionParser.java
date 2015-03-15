@@ -18,6 +18,6 @@ public class ExpressionParser {
 
 
     public Expression parser(String rawExpression) throws SemanticParserException, LexicalParserException{
-        return semanticParser.buildEvaluableExpression(lexicalParser.parser(rawExpression));
+        return semanticParser.parser(lexicalParser.parser(rawExpression));
     }
 }

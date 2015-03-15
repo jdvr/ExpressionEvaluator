@@ -11,7 +11,7 @@ public class Sub extends BinaryOperator {
 
     @Override
     public Object value() {
-        return evaluate(Operations.Subtraction.toString());
+        return evaluate(Operations.Subtraction);
     }
 
     @Override
@@ -26,6 +26,6 @@ public class Sub extends BinaryOperator {
 
     @Override
     public Evaluable getEvaluable() {
-        return getEvaluable(evaluateOperand(getLeft()), evaluateOperand(getRight()), Operations.Subtraction.toString());
+        return getEvaluable(evaluateOperand(getLeft()), evaluateOperand(getRight()), Operations.Subtraction);
     }
 }

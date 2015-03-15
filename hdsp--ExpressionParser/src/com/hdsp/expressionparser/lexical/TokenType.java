@@ -13,7 +13,6 @@ public enum TokenType {
     private Integer preference;
 
     TokenType(Integer preference) {
-
         this.preference = preference;
     }
 

@@ -11,7 +11,7 @@ public class Multiply extends BinaryOperator {
 
     @Override
     public Object value() {
-        return evaluate(Operations.Multiply.toString());
+        return evaluate(Operations.Multiply);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class Multiply extends BinaryOperator {
 
     @Override
     public Evaluable getEvaluable() {
-        return getEvaluable(evaluateOperand(getLeft()), evaluateOperand(getRight()), Operations.Multiply.toString());
+        return getEvaluable(evaluateOperand(getLeft()), evaluateOperand(getRight()), Operations.Multiply);
     }
 }
 

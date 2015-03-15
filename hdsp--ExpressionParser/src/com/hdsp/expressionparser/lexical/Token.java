@@ -8,7 +8,7 @@ import static com.hdsp.expressionparser.lexical.TokenType.*;
 public class Token {
     private TokenType type;
     private Object value;
-    private static Map<String, TokenType> tokenTypes = typeCodification();
+    private static Map<String, TokenType> symbolToTypeMap = getSymbolToTypeMap();
 
     public Token(Integer value) {
         this(IntegerConstant, value);
@@ -25,7 +25,6 @@ public class Token {
     public Token(Double value) {
         this(DoubleConstant, value);
     }
-
 
 
     public TokenType getType() {
@@ -47,30 +46,23 @@ public class Token {
         return this.type == otherToken.type && this.value.equals(otherToken.value);
     }
 
-    @Override
-    public int hashCode() {
-        int result = type != null ? type.hashCode() : 0;
-        result = 31 * result + (value != null ? value.hashCode() : 0);
-        return result;
-    }
-
-    private Token(TokenType type, Object value){
+    private Token(TokenType type, Object value) {
         this.type = type;
         this.value = value;
     }
 
     private static TokenType getTypeOf(String value) {
-        return tokenTypes.get(value);
+        return symbolToTypeMap.get(value);
     }
 
-    private static Map<String, TokenType> typeCodification() {
-        Map<String, TokenType> stringToType = new HashMap<>();
-        stringToType.put("+", PlusSign);
-        stringToType.put("-", SubSign);
-        stringToType.put("*", MultiplySign);
-        stringToType.put("(", LeftParenthesis);
-        stringToType.put(")", RightParenthesis);
-        return  stringToType;
+    private static Map<String, TokenType> getSymbolToTypeMap() {
+        return new HashMap<String, TokenType>() {{
+            put("+", PlusSign);
+            put("-", SubSign);
+            put("*", MultiplySign);
+            put("(", LeftParenthesis);
+            put(")", RightParenthesis);
+        }};
     }
 
 

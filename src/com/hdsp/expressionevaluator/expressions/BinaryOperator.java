@@ -28,13 +28,13 @@ public abstract class BinaryOperator extends Operator {
         return rightExpression;
     }
 
-    protected Object evaluate(String operation) {
+    protected Object evaluate(Operations operation) {
         return getEvaluable(evaluateOperand(getLeft()), evaluateOperand(getRight()), operation).value();
     }
 
-    protected Evaluable getEvaluable(Object left, Object right, String operation) {
+    protected Evaluable getEvaluable(Object left, Object right, Operations operation) {
         try {
-            return createEvaluable(left, right, getBinaryOperationClass(left, right, operation));
+            return createEvaluable(left, right, getBinaryOperationClass(left, right, operation.toString()));
         } catch (ClassNotFoundException e) {
             return nullEvaluable();
         }

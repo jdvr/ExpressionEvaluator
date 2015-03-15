@@ -11,7 +11,7 @@ public class Add extends BinaryOperator {
 
     @Override
     public Object value() {
-        return evaluate(Operations.Addition.toString());
+        return evaluate(Operations.Addition);
     }
 
     @Override
@@ -26,6 +26,6 @@ public class Add extends BinaryOperator {
 
     @Override
     public Evaluable getEvaluable() {
-        return getEvaluable(evaluateOperand(getLeft()), evaluateOperand(getRight()), Operations.Addition.toString());
+        return getEvaluable(evaluateOperand(getLeft()), evaluateOperand(getRight()), Operations.Addition);
     }
 }
