@@ -36,6 +36,12 @@ public class AcceptedExpressionEvaluator {
         assertThat(expressionEvaluator.evaluate("( 2 - 5 ) * 2"), is(-6));
     }
 
+    @Test
+    public void should_return_fourteen_when_given_complex_expression() throws Exception{
+        ExpressionEvaluator expressionEvaluator = new ExpressionEvaluator(new ExpressionParser());
+        assertThat(expressionEvaluator.evaluate("( 2 * ( 5 + 1 ) ) + 2"), is(14));
+    }
+
 
     @Test
     public void should_return_five_point_five_when_given_three_point_five_plus_two_expression() throws Exception{
