@@ -10,7 +10,7 @@ import org.junit.Test;
 import static junit.framework.Assert.assertEquals;
 
 
-public class ExpressionEvaluatorTest {
+public class TestingEvaluable {
 
     @Test
     public void withIntegerConstant() throws Exception {

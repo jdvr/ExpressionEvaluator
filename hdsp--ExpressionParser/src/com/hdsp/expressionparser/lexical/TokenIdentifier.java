@@ -5,6 +5,7 @@ public enum TokenIdentifier {
     Sub("-", Token::new),
     F("f", value -> new Token(Float.valueOf(value))),
     Point(".", value -> new Token(Double.valueOf(value))),
+    Times("*", Token::new),
     LeftParenthesis("(", Token::new),
     RightParenthesis(")", Token::new);
 
