@@ -3,25 +3,14 @@ package com.hdsp.expressionevaluator.expressions;
 import com.hdsp.expressionevaluator.Evaluable;
 import com.hdsp.expressionevaluator.Expression;
 
-/**
- * Created by JuanDavid on 25/02/2015.
- */
 public abstract class Operator implements Evaluable, Expression {
 
-    protected String typeOf(Object operand){
-        return operand.getClass().getSimpleName();
+    protected String typeOf(Object expression){
+        return expression.getClass().getSimpleName();
     }
 
     protected Object evaluateOperand(Expression expression) {
-        return isEvaluable(expression) ? evaluable(expression).value() : nullEvaluable();
-    }
-
-    private Evaluable evaluable(Expression expression){
-        return (Evaluable) expression;
-    }
-
-    private boolean isEvaluable(Expression expression){
-        return expression instanceof Evaluable;
+        return expression.isEvaluable() ? expression.getEvaluable().value() : nullEvaluable();
     }
 
     protected Evaluable nullEvaluable() {
@@ -37,5 +26,4 @@ public abstract class Operator implements Evaluable, Expression {
             }
         };
     }
-
 }

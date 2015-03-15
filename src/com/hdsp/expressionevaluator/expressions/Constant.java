@@ -27,4 +27,14 @@ public class Constant implements Expression, Evaluable {
     public String type() {
         return value.getClass().getSimpleName();
     }
+
+    @Override
+    public boolean isEvaluable() {
+        return true;
+    }
+
+    @Override
+    public Evaluable getEvaluable() {
+        return this;
+    }
 }

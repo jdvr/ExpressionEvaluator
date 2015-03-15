@@ -1,5 +1,6 @@
 package com.hdsp.expressionevaluator.expressions;
 
+import com.hdsp.expressionevaluator.Evaluable;
 import com.hdsp.expressionevaluator.Expression;
 
 public class Sub extends BinaryOperator {
@@ -10,11 +11,21 @@ public class Sub extends BinaryOperator {
 
     @Override
     public Object value() {
-        return evaluate("Subtraction");
+        return evaluate(Operations.Subtraction.toString());
     }
 
     @Override
     public String type() {
         return typeOf(value());
+    }
+
+    @Override
+    public boolean isEvaluable() {
+        return true;
+    }
+
+    @Override
+    public Evaluable getEvaluable() {
+        return getEvaluable(evaluateOperand(getLeft()), evaluateOperand(getRight()), Operations.Subtraction.toString());
     }
 }
