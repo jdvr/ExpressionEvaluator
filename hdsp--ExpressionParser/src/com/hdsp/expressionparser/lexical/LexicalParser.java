@@ -5,7 +5,7 @@ import java.util.List;
 
 public class LexicalParser {
 
-    public Token[] parser(String expression) throws Exception {
+    public Token[] parser(String expression) throws LexicalParserException {
         if(expression.isEmpty()) return new Token[0];
         List<Token> tokens = new ArrayList<>();
         for (String token : expression.split(" ")) {
@@ -15,14 +15,14 @@ public class LexicalParser {
         return tokens.toArray(new Token[0]);
     }
 
-    private Token buildTokenFor(String rawToken) throws Exception {
+    private Token buildTokenFor(String rawToken) throws LexicalParserException{
         try {
             for (TokenIdentifier symbol : TokenIdentifier.values())
                 if (rawToken.contains(symbol.id()))
                     return symbol.builder().build(rawToken);
 
             return new Token(Integer.valueOf(rawToken));
-        }catch (Exception e){
+        }catch (NumberFormatException e){
             throw new LexicalParserException(rawToken);
         }
     }

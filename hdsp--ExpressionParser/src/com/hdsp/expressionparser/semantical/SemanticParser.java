@@ -25,7 +25,7 @@ public class SemanticParser {
         leftStack = new Stack<>();
     }
 
-    public Expression buildEvaluableExpression(List<Token> tokens) throws SemanticParserException {
+    public Expression buildEvaluableExpression(Token... tokens) throws SemanticParserException {
         if (! checkWellFormedExpression(tokens)) throw  new SemanticParserException("Wrong Formed Expression");
         for (Token token : tokens) {
 
@@ -57,15 +57,24 @@ public class SemanticParser {
         return leftStack.pop();
     }
 
-    private boolean checkWellFormedExpression(List<Token> tokens) {
-        return checkNotTwoConstantOrOperatorsConsecutive(tokens);
+    private boolean checkWellFormedExpression(Token[] tokens) {
+        return checkNotTwoConstantOrOperatorsConsecutive(tokens) && checkParenthesisPairs(tokens);
     }
 
-    private boolean checkNotTwoConstantOrOperatorsConsecutive(List<Token> tokens) {
-        for (int i = 1; i < tokens.size() - 1; i++) {
-            if (tokens.get(i).getType() == LeftParenthesis || tokens.get(i).getType() == RightParenthesis) continue;
-            if (tokens.get(i - 1).getType() == tokens.get(i).getType()) return false;
-            if (tokens.get(i).getType() == tokens.get(i + 1).getType()) return false;
+    private boolean checkParenthesisPairs(Token[] tokens) {
+        int pairCounted = 0;
+        for (Token token : tokens) {
+            if (token.getType() == LeftParenthesis) pairCounted++;
+            if (token.getType() == RightParenthesis) pairCounted--;
+        }
+        return pairCounted == 0;
+    }
+
+    private boolean checkNotTwoConstantOrOperatorsConsecutive(Token[] tokens) {
+        for (int i = 1; i < tokens.length - 1; i++) {
+            if (tokens[i].getType() == LeftParenthesis || tokens[i].getType() == RightParenthesis) continue;
+            if (tokens[i - 1].getType() == tokens[i].getType()) return false;
+            if (tokens[i].getType() == tokens[i + 1].getType()) return false;
         }
         return true;
     }
